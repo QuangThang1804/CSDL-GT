@@ -14,35 +14,45 @@ public class GuessTheQueue {
         StringBuilder result = new StringBuilder();
         StringTokenizer in = new StringTokenizer(br.readLine());
         Map<Integer, Integer> map = new HashMap<>();
+        int[] id = new int[2000000];
         int numberTests = Integer.parseInt(in.nextToken());
+        int bPos;
+        int fPos;
+        int test = 1;
         while (numberTests-- > 0) {
+            map.clear();
+            bPos = 100001;
+            fPos = 100000;
+            result.append("Case ").append(test++).append(":\n");
             in = new StringTokenizer(br.readLine());
             int numberQueries = Integer.parseInt(in.nextToken());
             while (numberQueries-- > 0) {
                 in = new StringTokenizer(br.readLine());
-                int operation = Integer.parseInt(in.nextToken());
+                int operator = Integer.parseInt(in.nextToken());
                 char c = in.nextToken().charAt(0);
-                int[] id = new int[2000000];
                 int newId;
-                if (operation == 1) {
+                if (operator == 1) {
                     newId = Integer.parseInt(in.nextToken());
                     if (c == 'B') {
-                        map.put(newId);
-                        result.append(map.toString());
-                    } if (c == 'F') {
-                        map.put(0, newId);
-                        result.append(map.toString());
-
-                    }
-                } else if (operation == 2) {
-                    if (c == 'B') {
-                        map.remove(map.size());
+                        map.put(newId, bPos);
+                        id[bPos++] = newId;
                     } else {
-                        map.remove(0);
+                        map.put(newId, fPos);
+                        id[fPos--] = newId;
+                    }
+                } else if (operator == 2) {
+                    if (c == 'B') {
+                        bPos--;
+                    } else {
+                        fPos++;
                     }
                 } else {
-                    int positonY = Integer.parseInt(in.nextToken());
-                    result.append(map.get(positonY)).append("\n");
+                    newId= Integer.parseInt(in.nextToken());
+                    if (c == 'D') {
+                        result.append(id[fPos + newId]).append("\n");
+                    } else {
+                        result.append(map.get(newId) - fPos).append("\n");    
+                    }
                 }
             }
         }

@@ -1,49 +1,58 @@
-import java.util.Arrays;
-import java.util.Scanner;
+public class QuickSort implements SortAlgorithm{
+    int countSwap = 0;
+    int countCompare = 0;
 
-public class QuickSort {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int [] array = {5, 7, 4, 3, 10, 22, 65, 34};
-        int temp;
-        int countss = 0, countdc = 0;
-        sort(array, 0, array.length - 1);
-        System.out.println(Arrays.toString(array));
-        System.out.println("So lan so sanh: " + countss);
-        System.out.println("So lan doi cho: " + countdc);
+    @Override
+    public int[] sort(int[] arr) {
+        System.out.println("Staring Quick Sort:");
+        MyCollection.display(arr);
+        quickSort(arr,0, arr.length - 1);
+        System.out.println("-----------");
+        System.out.println("So lan doi cho: " + getCountSwap());
+        System.out.println("SO lan so sanh: " + getCountCompare());
+        System.out.println();
+        return arr;
     }
 
-    public static int index_ngan(int[] array, int low, int high) {
-        int chot = array[high];
+    public void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+        countSwap++;
+    }
+
+    public int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
         int i = low - 1;
-        int temp;
-        int countss = 0;
-        int countdc = 0;
         for (int j = low; j < high; j++) {
-            countss++;
-            if (array[j] < chot) {
+            if (arr[j] < pivot) {
                 i++;
-
-                temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
+                swap(arr, i, j);
             }
+            countCompare++;
         }
-
-        temp = array[i + 1];
-        array[i + 1] = array[high];
-        array[high] = temp;
-        countdc++;
-        
+        swap(arr, i + 1, high);
+        MyCollection.display(arr);
         return i + 1;
     }
 
-    public static void sort(int [] array, int low, int high) {
+    public void quickSort(int[] arr, int low, int high)
+    {
         if (low < high) {
-            int chot = index_ngan(array, low, high);
-
-            sort(array, 0, chot - 1);
-            sort(array, chot + 1, high);
+            int pi = partition(arr, low, high);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr,pi + 1, high);
+            countCompare++;
+        } else {
+            countCompare++;
         }
+    }
+
+    public int getCountSwap() {
+        return countSwap;
+    }
+
+    public int getCountCompare() {
+        return countCompare;
     }
 }

@@ -1,8 +1,10 @@
 package Thuc_hanh_tuan4;
 
+import Thuc_hanh_tuan4.SimpleLinkedList;
+
 import java.util.Iterator;
 
-public class LinkedListStack<E> implements StackInterface<E> {
+public class LinkedStack<E> implements StackInterface<E> {
 
     class Node {
         E element;
@@ -78,7 +80,8 @@ public class LinkedListStack<E> implements StackInterface<E> {
         // Kiểm tra stack rỗng
         return n < 0;
     }
-	
+
+    
     public int size() {
         return n + 1;
     }
